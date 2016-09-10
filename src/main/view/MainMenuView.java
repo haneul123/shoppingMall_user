@@ -29,19 +29,19 @@ public class MainMenuView {
 			
 			if(selectedMenu == 0){
 				
-				MainController.getAdminController().requestAdminMainMenu();
+				MainController.getAdminController().requestAdminMainMenu(); // 테스트
 				
 			} else if(selectedMenu == 1){
 
-				MainController.getProductController().requestProductlist();
+				MainController.getProductController().requestProductlist(); // 상품보기
 
 			} else if(selectedMenu == 2){
 
-				MainController.getUserController().requestNewUserInfo();
+				MainController.getUserController().requestNewUserInfo(); // 회원가입
 
 			} else if(selectedMenu == 3){
 
-				MainController.getLoginController().requestLogin();
+				MainController.getLoginController().requestLoginUserInfo(); // 로그인
 
 			} else if(selectedMenu == 4){
 

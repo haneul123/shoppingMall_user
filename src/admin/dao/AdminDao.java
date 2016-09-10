@@ -106,6 +106,11 @@ public class AdminDao {
 			
 			e.printStackTrace();
 			
+		} finally {
+			
+			MainController.getDbController().close(rs);
+			MainController.getDbController().close(stmt);
+			
 		}
 
 		return admins;
@@ -146,6 +151,11 @@ public class AdminDao {
 			
 			e.printStackTrace();
 			
+		} finally {
+			
+			MainController.getDbController().close(rs);
+			MainController.getDbController().close(pstmt);
+			
 		}
 
 		return selectedAdmin;
@@ -181,6 +191,10 @@ public class AdminDao {
 			
 			e.printStackTrace();
 			
+		} finally {
+			
+			MainController.getDbController().close(pstmt);
+			
 		}
 
 		return success;
@@ -205,6 +219,10 @@ public class AdminDao {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			
+			MainController.getDbController().close(pstmt);
+			
 		}
 		
 		return success;
