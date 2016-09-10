@@ -44,8 +44,30 @@ public class ProductDao {
 		
 		return products;
 	}
+
 	
+	// 상품 등록
+	public boolean insertProduct(Product newProduct) {
 	
-	
+		
+		
+		return false;
+	}
+
+
+	// 상품 수정
+	public boolean updateProduct(int selectedNum, Product updateProduct) {
+
+		
+		return false;
+	}
+
+
+	// 상품 삭제
+	public boolean deleteProduct(int deleteProductNumber) {
+
+		
+		return false;
+	}
 
 }

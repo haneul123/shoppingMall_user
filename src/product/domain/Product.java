@@ -14,6 +14,15 @@ public class Product {
 	
 	}
 	
+	public Product(String productName, int productPrice, String productComment, String productVendor){
+	
+		this.productName = productName;
+		this.productPrice = productPrice;
+		this.productComment = productComment;
+		this.productVendor = productVendor;
+		
+	}
+	
 	// getter and setter
 	public int getProductNumber() {
 		return productNumber;

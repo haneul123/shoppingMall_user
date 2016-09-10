@@ -29,15 +29,15 @@ public class ProductManagementView {
 				
 			} else if(selectedMenu == 2){
 
-				MainController.getProductController().requestInsertProduct();
+				MainController.getProductController().requestInsertProductInfo();
 				
 			} else if(selectedMenu == 3){
 
-				MainController.getProductController().requestUpdateProduct();
+				MainController.getProductController().requestUpdateProductInfo();
 				
 			} else if(selectedMenu == 4){
 				
-				MainController.getProductController().requestDeleteProduct();
+				MainController.getProductController().requestDeleteProductNumber();
 				
 			} else if(selectedMenu == 5){
 				
