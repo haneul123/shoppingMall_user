@@ -17,9 +17,6 @@ public class ProductListView {
 			System.out.println(products.get(i).getProductVendor());
 		}
 		
-		
-	}
-
-	
+	}	
 	
 }
