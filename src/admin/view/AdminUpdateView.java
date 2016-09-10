@@ -39,7 +39,7 @@ public class AdminUpdateView {
 		while(true){
 			
 			System.out.println("수정을 원하시는 항목을 선택하여 주십시오");
-			System.out.println("1. 비밀번호변경 || 2. 권한변경 || 3. 계정삭제 || 4. 수정종료");
+			System.out.println("1. 비밀번호변경 || 2. 권한변경 || 3. 수정종료");
 			int selectedNumber = keyboard.nextInt();
 
 			if(selectedNumber == 1){
@@ -53,10 +53,6 @@ public class AdminUpdateView {
 				authority = keyboard.nextInt();
 
 			} else if(selectedNumber == 3){
-
-				MainController.getAdminController().requestAdminDeleteView();
-
-			} else if(selectedNumber == 4){
 				
 				break;
 				
