@@ -48,7 +48,8 @@ public class AdminUpdateView {
 				adminPassword = keyboard.next();
 
 			} else if(selectedNumber == 2){
-
+				
+				System.out.println("원하시는 권한번호를 입력하여 주십시오 (1 : 점장, 2 : 직원) > ");
 				authority = keyboard.nextInt();
 
 			} else if(selectedNumber == 3){

@@ -2,7 +2,6 @@ package main.view;
 
 import java.util.Scanner;
 
-import main.Main;
 import main.controller.MainController;
 
 public class MainMenuView {
@@ -23,11 +22,16 @@ public class MainMenuView {
 		while(true){
 			
 			System.out.println("원하시는 메뉴를 선택하여 주십시오");
-			System.out.println("1. 상품보기 || 2. 회원가입 || 3. 로그인 || 4. 쇼핑몰 나가기");
+			System.out.println("0.테스트 || 1. 상품보기 || 2. 회원가입 || 3. 로그인 || 4. 쇼핑몰 나가기");
 
 			int selectedMenu = keyboard.nextInt();
 
-			if(selectedMenu == 1){
+			
+			if(selectedMenu == 0){
+				
+				MainController.getAdminController().requestAdminMainMenu();
+				
+			} else if(selectedMenu == 1){
 
 				MainController.getProductController().requestProductlist();
 
