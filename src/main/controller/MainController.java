@@ -1,6 +1,8 @@
 package main.controller;
 
 import login.controller.LoginController;
+import main.view.AlertView;
+import main.view.MainMenuView;
 import order.controller.OrderController;
 import payment.controller.PaymentController;
 import product.controller.ProductController;
@@ -35,11 +37,13 @@ public class MainController {
 	public static DB_Controller getDbController() {
 		return dbController;
 	}
-
+	
+	
 	public static UserController getUserController() {
 		return userController;
 	}
 
+	
 	public static LoginController getLoginController() {
 		return loginController;
 	}
@@ -48,12 +52,33 @@ public class MainController {
 		return productController;
 	}
 
+	
 	public static OrderController getOrderController() {
 		return orderController;
 	}
 
+	
 	public static PaymentController getPaymentController() {
 		return paymentController;
+	}
+	
+	
+	// method
+	// 출력문 공통 메서드
+	public static void AlertView(String msg){
+		
+		AlertView alertView = new AlertView();
+		alertView.alert(msg);
+		
+	}
+	
+	
+	// 메인메뉴보기
+	public static void mainMenuView(){
+		
+		MainMenuView mainMenuView = new MainMenuView();
+		mainMenuView.mainMenuView();
+		
 	}
 	
 }

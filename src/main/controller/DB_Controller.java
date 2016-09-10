@@ -22,13 +22,12 @@ public class DB_Controller {
 	
 	
 	// Connection --- oracle driver
-	public static Connection getConnection(){
+	public Connection getConnection(){
 		
 		Connection conn = null;
 		
 		try{
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "123456");
-			conn.setAutoCommit(false);
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +37,7 @@ public class DB_Controller {
 	
 	
 	// Connection close
-	public static void close(Connection conn){
+	public void close(Connection conn){
 		
 		try{
 			conn.close();
@@ -50,7 +49,7 @@ public class DB_Controller {
 	
 	
 	// Statement close
-	public static void close(Statement stmt){
+	public void close(Statement stmt){
 		
 		try{
 			stmt.close();
@@ -62,7 +61,7 @@ public class DB_Controller {
 	
 	
 	// PreparedStatement close
-	public static void close(PreparedStatement pstmt){
+	public void close(PreparedStatement pstmt){
 		
 		try{
 			pstmt.close();
@@ -74,7 +73,7 @@ public class DB_Controller {
 	
 	
 	// ResultSet close
-	public static void close(ResultSet rs){
+	public void close(ResultSet rs){
 		
 		try{
 			rs.close();
@@ -86,7 +85,7 @@ public class DB_Controller {
 	
 	
 	// Transaction 처리 (commit)
-	public static void commit(Connection conn){
+	public void commit(Connection conn){
 		
 		try{		
 			conn.commit();
@@ -98,7 +97,7 @@ public class DB_Controller {
 	
 	
 	// rollback
-	public static void rollback(Connection conn){
+	public void rollback(Connection conn){
 		
 		try{
 			conn.rollback();
