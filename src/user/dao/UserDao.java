@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import login.domain.Login;
 import main.controller.MainController;
@@ -199,6 +200,66 @@ public class UserDao {
 
 		return success;
 
+	}
+	
+	public boolean userDelete(int selectedUserNumber){
+		
+		boolean success = false;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			String sql = "delete shoppingMall_user where userNumber = ?";	
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, selectedUserNumber);
+			pstmt.executeUpdate();
+			success = true;
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			MainController.getDbController().close(pstmt);
+
+		}
+
+		return success;
+		
+	}
+
+
+	// 유저 리스트 리턴
+	public ArrayList<User> userList() {
+		
+		ArrayList<User> users = new ArrayList<User>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			String sql = "select * from shoppingMall_user";
+			stmt = MainController.getDbController().getConnection().createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()){
+			
+				User user = new User();
+				user.setUserNumber(rs.getInt(1));
+				user.setUserId(rs.getString(2));
+				user.setUserPassword(rs.getString(3));
+				user.setUserName(rs.getString(4));
+				users.add(user);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return users;
 	}
 
 }

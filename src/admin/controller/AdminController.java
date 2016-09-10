@@ -10,6 +10,8 @@ import admin.view.AdminListView;
 import admin.view.AdminMainMenu;
 import admin.view.AdminSignUpView;
 import admin.view.AdminUpdateView;
+import admin.view.ProductManagementView;
+import admin.view.UserManagementView;
 import main.controller.MainController;
 
 public class AdminController {
@@ -143,7 +145,8 @@ public class AdminController {
 	// 관리자 상품관리 메뉴 출력
 	public void requestProductManagement() {
 
-
+		ProductManagementView productManagementView = new ProductManagementView();
+		productManagementView.productManagementView();
 
 	}
 
@@ -151,7 +154,8 @@ public class AdminController {
 	// 관리자 유저관리 메뉴 출력
 	public void requestUserManagement() {
 
-
+		UserManagementView userManagementView = new UserManagementView();
+		userManagementView.userManagementView();
 
 	}
 

@@ -12,6 +12,7 @@ public class ProductController {
 	// variable
 	private ProductDao productDao;
 	
+	
 	// constructor
 	public ProductController() {
 		
@@ -19,6 +20,7 @@ public class ProductController {
 		
 	}
 
+	
 	// method
 	// request product list view
 	public void requestProductlist(){
@@ -35,8 +37,26 @@ public class ProductController {
 		}
 		
 	}
-	
-	
-	
-}
 
+	
+	// 상품등록 요청
+	public void requestInsertProduct() {
+
+		
+	}
+
+	
+	// 상품수정 요청
+	public void requestUpdateProduct() {
+		
+		
+	}
+
+	
+	// 상품삭제 요청
+	public void requestDeleteProduct() {
+		
+		
+	}
+		
+}

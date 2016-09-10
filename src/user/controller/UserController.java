@@ -1,5 +1,7 @@
 package user.controller;
 
+import java.util.ArrayList;
+
 import login.domain.Login;
 import main.controller.MainController;
 import user.dao.UserDao;
@@ -7,6 +9,7 @@ import user.domain.User;
 import user.view.DeleteUserView;
 import user.view.NewUserInfoView;
 import user.view.UpdateUserInfoView;
+import user.view.UserListView;
 import user.view.UserMainMenu;
 
 public class UserController {
@@ -103,6 +106,34 @@ public class UserController {
 			System.out.println("회원 탈퇴를 취소합니다");
 			
 		}
+		
+	}
+
+	
+	// 관리자가 강제로 회원 삭제
+	public void requestForceDeleteUser() {
+
+		DeleteUserView deleteUserView = new DeleteUserView();
+		int selectedUserNumber = deleteUserView.forceDeleteUserView();
+		
+		boolean success = userDao.userDelete(selectedUserNumber);
+		
+		if(success){
+			MainController.AlertView("회원이 삭제되었습니다");
+		} else {
+			MainController.AlertView("회원이 삭제되지 않았습니다");
+		}
+		
+	}
+
+	
+	// 회원 리스트 출력
+	public void requestUserList() {
+		
+		ArrayList<User> users = null;
+		users = userDao.userList();
+		UserListView userListView = new UserListView();
+		userListView.userListView(users);
 		
 	}
 	
