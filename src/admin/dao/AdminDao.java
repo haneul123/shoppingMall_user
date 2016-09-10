@@ -167,24 +167,46 @@ public class AdminDao {
 	public boolean adminUpdate(Admin updatedAdmin) {
 
 		boolean success = false;
+		ResultSet rs = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		
 		try {
 			
-			String sql = "update shoppingMall_admin set adminPassword = ?, authority = ? where adminNumber = ?";
+			Admin admin = new Admin();
+			String sql = "select * from shoppingMall_admin where adminNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, updatedAdmin.getAdminNumber());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				
+				admin.setAdminNumber(rs.getInt(1));
+				admin.setAdminId(rs.getString(2));
+				admin.setAdminPassword(rs.getString(3));
+				admin.setAdminName(rs.getString(4));
+				admin.setAuthority(rs.getInt(5));
+				
+			}
+			
+			sql = "update shoppingMall_admin set adminPassword = ?, authority = ? where adminNumber = ?";
+			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 			
 			if(updatedAdmin.getAdminPassword() != null){
-				pstmt.setString(1, updatedAdmin.getAdminPassword());	
+				pstmt2.setString(1, updatedAdmin.getAdminPassword());	
+			} else {
+				pstmt2.setString(1, admin.getAdminPassword());
 			}
 			
 			if(updatedAdmin.getAuthority() != 0){
-				pstmt.setInt(2, updatedAdmin.getAuthority());	
+				pstmt2.setInt(2, updatedAdmin.getAuthority());	
+			} else {
+				pstmt2.setInt(2, admin.getAuthority());
 			}
 			
-			pstmt.setInt(3, updatedAdmin.getAdminNumber());
+			pstmt2.setInt(3, updatedAdmin.getAdminNumber());
 			
-			pstmt.executeUpdate();
+			pstmt2.executeUpdate();
 			success = true;
 			
 		} catch (SQLException e) {
@@ -194,6 +216,8 @@ public class AdminDao {
 		} finally {
 			
 			MainController.getDbController().close(pstmt);
+			MainController.getDbController().close(rs);
+			MainController.getDbController().close(pstmt2);
 			
 		}
 

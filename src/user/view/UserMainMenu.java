@@ -38,7 +38,7 @@ public class UserMainMenu {
 
 			} else if(selectedMenu == 4){
 
-				System.out.println("개인정보변경모드입니다");
+				MainController.getUserController().requestUserUpdateInfo();
 
 			} else if(selectedMenu == 5){
 

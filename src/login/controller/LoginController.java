@@ -10,6 +10,7 @@ public class LoginController {
 	// variable
 	private LoginDao loginDao;
 	
+	
 	// constructor
 	public LoginController() {
 
@@ -17,8 +18,9 @@ public class LoginController {
 		
 	}
 	
+	
 	// 로그인 정보 요청
-	public void requestLoginUserInfo(){
+	public void requestLoginUserInfoView(){
 		
 		LoginView loginView = new LoginView();
 		loginView.loginView();
@@ -65,6 +67,16 @@ public class LoginController {
 			MainController.AlertView("로그아웃 실패");
 			
 		}
+		
+	}
+
+
+	// 로그인한 유저 정보 요청
+	public Login requestLoginUserInfo() {
+		
+		Login loginUser = loginDao.loginUser();
+		
+		return loginUser;
 		
 	}
 

@@ -25,8 +25,7 @@ public class MainMenuView {
 			System.out.println("0.테스트 || 1. 상품보기 || 2. 회원가입 || 3. 로그인 || 4. 쇼핑몰 나가기");
 
 			int selectedMenu = keyboard.nextInt();
-
-			
+		
 			if(selectedMenu == 0){
 				
 				MainController.getAdminController().requestAdminMainMenu(); // 테스트
@@ -41,7 +40,7 @@ public class MainMenuView {
 
 			} else if(selectedMenu == 3){
 
-				MainController.getLoginController().requestLoginUserInfo(); // 로그인
+				MainController.getLoginController().requestLoginUserInfoView(); // 로그인
 
 			} else if(selectedMenu == 4){
 

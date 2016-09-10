@@ -25,9 +25,10 @@ public class LoginDao {
 		try {
 			
 			// 회원인지 확인
-			sql = "select * from shoppingMall_user where userId = ?";	
+			sql = "select * from shoppingMall_user where userId = ? and userPassword = ?";	
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, loginUser.getLoginUserId());
+			pstmt.setString(2, loginUser.getLoginUserPassword());
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
@@ -35,9 +36,10 @@ public class LoginDao {
 			}
 			
 			// 관리자인지 확인
-			sql = "select * from shoppingMall_admin where adminId = ?";
+			sql = "select * from shoppingMall_admin where adminId = ? and adminPassword = ?";
 			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt2.setString(1, loginUser.getLoginUserId());
+			pstmt2.setString(2, loginUser.getLoginUserPassword());
 			rs2 = pstmt2.executeQuery();
 			
 			if(rs2.next()){
@@ -50,9 +52,10 @@ public class LoginDao {
 			
 		} finally {
 			
-			MainController.getDbController().close(rs);
 			MainController.getDbController().close(pstmt);
+			MainController.getDbController().close(rs);
 			MainController.getDbController().close(pstmt2);
+			MainController.getDbController().close(rs2);
 			
 		}
 			
@@ -102,6 +105,39 @@ public class LoginDao {
 		}
 		
 		return success;
+		
+	}
+
+
+	// 로그인한 유저 정보 리턴
+	public Login loginUser() {
+		
+		Login loginUser = new Login();
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from shoppingMall_login";
+			stmt = MainController.getDbController().getConnection().createStatement();
+			rs = stmt.executeQuery(sql);
+			
+			if(rs.next()){
+				loginUser.setLoginUserId(rs.getString(1));
+				loginUser.setLoginUserPassword(rs.getString(2));
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			MainController.getDbController().close(rs);
+			MainController.getDbController().close(stmt);
+			
+		}
+			
+		return loginUser;
 		
 	}
 
