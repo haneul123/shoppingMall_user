@@ -37,7 +37,7 @@ public class MainMenuView {
 
 			} else if(selectedMenu == 2){
 
-				MainController.getUserController().requestSignUp();
+				MainController.getUserController().requestNewUserInfo();
 
 			} else if(selectedMenu == 3){
 
