@@ -31,7 +31,7 @@ public class UpdateProductInfo {
 
 		while(true){
 			
-			System.out.println("원하시는 메뉴를 선택하십시오");
+			System.out.println("변경을 원하시는 메뉴를 선택하십시오");
 			System.out.println("1. 상품이름 || 2. 상품가격 || 3. 상품내용 || 4. 제조사 || 5. 수정모드 나가기");
 			int selectedMenu = keyboard.nextInt();
 

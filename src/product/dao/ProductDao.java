@@ -114,7 +114,7 @@ public class ProductDao {
 			if(stmt != null){MainController.getDbController().close(stmt);}
 			if(rs != null){MainController.getDbController().close(rs);}
 			if(pstmt != null){MainController.getDbController().close(pstmt);}
-			
+
 		}
 
 		return success;
@@ -124,16 +124,101 @@ public class ProductDao {
 	// 상품 수정
 	public boolean updateProduct(int selectedNum, Product updateProduct) {
 
+		boolean success = false;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs = null;
+		Product product = new Product();
 
-		return false;
+		try {
+
+			String sql = "select * from SHOPPINGMALL_PRODUCT where productNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, selectedNum);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+
+				product.setProductNumber(rs.getInt(1));
+				product.setProductName(rs.getString(2));
+				product.setProductPrice(rs.getInt(3));
+				product.setProductComment(rs.getString(4));
+				product.setProductVendor(rs.getString(5));
+
+				if(rs.wasNull()){
+					return success;
+				}
+			}
+
+			sql = "update SHOPPINGMALL_PRODUCT set productName = ?, productPrice = ?, productComment = ?, productVendor = ? where productNumber = ?";
+			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
+
+			if(updateProduct.getProductName() != null){
+				pstmt2.setString(1, updateProduct.getProductName());	
+			} else {
+				pstmt2.setString(1, product.getProductName());
+			}
+
+			if(updateProduct.getProductPrice() != 0){
+				pstmt2.setInt(2, updateProduct.getProductPrice());
+			} else {
+				pstmt2.setInt(2, product.getProductPrice());
+			}
+
+			if(updateProduct.getProductComment() != null){
+				pstmt2.setString(3, updateProduct.getProductComment());
+			} else {
+				pstmt2.setString(3, product.getProductComment());
+			}
+			
+			if(updateProduct.getProductVendor() != null){
+				pstmt2.setString(4, updateProduct.getProductVendor());
+			} else {
+				pstmt2.setString(4, product.getProductVendor());
+			}
+
+			pstmt2.setInt(5, selectedNum);
+			pstmt2.executeUpdate();
+			success = true;
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			if(rs != null){MainController.getDbController().close(rs);}
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
+			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
+			
+		}
+		return success;
+
 	}
 
 
 	// 상품 삭제
 	public boolean deleteProduct(int deleteProductNumber) {
 
+		boolean success = false;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			String sql = "delete SHOPPINGMALL_PRODUCT where productNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, deleteProductNumber);
+			pstmt.executeUpdate();
+			success = true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
+		}
+	
+		return success;
 
-		return false;
 	}
 
 }

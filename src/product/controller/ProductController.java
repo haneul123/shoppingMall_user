@@ -81,7 +81,7 @@ public class ProductController {
 		if(success){
 			MainController.AlertView("성공적으로 상품이 수정되었습니다");
 		} else {
-			MainController.AlertView("상품수정에 실패하였습니다");
+			MainController.AlertView("선택하신 번호는 없는 상품번호 입니다");
 		}
 		
 	}
