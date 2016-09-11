@@ -12,6 +12,7 @@ import product.domain.Product;
 
 public class OrderDao {
 
+	
 	// 주문한 상품 장바구니에 넣기
 	public int orderProduct(Order newOrder) {
 		
@@ -175,6 +176,58 @@ public class OrderDao {
 		}
 		
 		return products;
+		
+	}
+
+
+	// 장바구니 수량 수정
+	public boolean updateOrderList(Order updatedOrder) {
+	
+		boolean success = true;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			String sql = "update shoppingMall_Cart set orderCount = ? where productNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, updatedOrder.getOrderCount());
+			pstmt.setInt(2, updatedOrder.getProductNumber());
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		} finally {
+			
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
+			
+		}
+
+		return success;
+		
+	}
+
+
+	// 선택 상품 삭제
+	public boolean deleteOrderList(int selectedProductNumber) {
+		
+		boolean success = false;
+		PreparedStatement pstmt = null;
+		
+		try {
+			
+			String sql = "delete shoppingMall_Cart where productNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, selectedProductNumber);
+			pstmt.executeUpdate();
+			success = true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return success;
 		
 	}
 

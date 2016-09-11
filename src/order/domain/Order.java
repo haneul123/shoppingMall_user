@@ -7,6 +7,7 @@ public class Order {
 	private int productNumber;
 	private int orderCount;
 	
+	
 	// constructor
 	public Order() {
 
