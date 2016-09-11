@@ -58,7 +58,7 @@ public class ProductController {
 		if(success){
 			MainController.AlertView("성공적으로 상품이 등록되었습니다");
 		} else {
-			MainController.AlertView("상품등록에 실패하였습니다");
+			MainController.AlertView("이미 같은 상품이 존재합니다");
 		}
 		
 	}

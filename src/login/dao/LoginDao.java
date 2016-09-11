@@ -52,10 +52,10 @@ public class LoginDao {
 			
 		} finally {
 			
-			MainController.getDbController().close(pstmt);
-			MainController.getDbController().close(rs);
-			MainController.getDbController().close(pstmt2);
-			MainController.getDbController().close(rs2);
+			if(rs2 != null){MainController.getDbController().close(rs2);}
+			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
+			if(rs != null){MainController.getDbController().close(rs);}
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
 			
 		}
 			
@@ -73,7 +73,7 @@ public class LoginDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			MainController.getDbController().close(pstmt3);	
+			if(pstmt3 != null){MainController.getDbController().close(pstmt3);}
 		}
 	
 		return userOrAdmin;
@@ -100,7 +100,7 @@ public class LoginDao {
 			
 		} finally {
 			
-			MainController.getDbController().close(stmt);
+			if(stmt != null){MainController.getDbController().close(stmt);}
 			
 		}
 		
@@ -132,9 +132,9 @@ public class LoginDao {
 			
 		} finally {
 			
-			MainController.getDbController().close(rs);
-			MainController.getDbController().close(stmt);
-			
+			if(rs != null){MainController.getDbController().close(rs);}
+			if(stmt != null){MainController.getDbController().close(stmt);}
+		
 		}
 			
 		return loginUser;
