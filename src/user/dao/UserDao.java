@@ -25,7 +25,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "select * from shoppingMall_user where userId = ?";
+			String sql = "select * from USERLIST where userId = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, newUser.getUserId());
 			rs = pstmt.executeQuery();
@@ -36,7 +36,7 @@ public class UserDao {
 
 			} else {
 
-				sql = "select max(userNumber)+1 as maxUserNumber from shoppingMall_user";
+				sql = "select max(userNumber)+1 as maxUserNumber from USERLIST";
 				stmt = MainController.getDbController().getConnection().createStatement();
 				rs2 = stmt.executeQuery(sql);
 
@@ -49,7 +49,7 @@ public class UserDao {
 
 				newUser.setUserNumber(maxUserNumber);
 
-				sql = "insert into shoppingMall_user values(?,?,?,?)";
+				sql = "insert into USERLIST values(?,?,?,?)";
 				pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt2.setInt(1, newUser.getUserNumber());
 				pstmt2.setString(2, newUser.getUserId());
@@ -88,7 +88,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "select * from shoppingMall_user where userId = ?";
+			String sql = "select * from USERLIST where userId = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, loginUser.getLoginUserId());
 			rs = pstmt.executeQuery();
@@ -126,7 +126,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "select * from shoppingMall_user where userId = ?";
+			String sql = "select * from USERLIST where userId = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, updatedUser.getUserId());
 			rs = pstmt.executeQuery();
@@ -149,7 +149,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "update shoppingMall_user set userPassword = ?, userName = ? where userId = ?";	
+			String sql = "update USERLIST set userPassword = ?, userName = ? where userId = ?";	
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 
 			if(updatedUser.getUserPassword() != null){
@@ -186,7 +186,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "delete shoppingMall_user where userId = ?";	
+			String sql = "delete USERLIST where userId = ?";	
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, loginUser.getLoginUserId());
 			pstmt.executeUpdate();
@@ -213,7 +213,7 @@ public class UserDao {
 
 		try {
 
-			String sql = "delete shoppingMall_user where userNumber = ?";	
+			String sql = "delete USERLIST where userNumber = ?";	
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, selectedUserNumber);
 			pstmt.executeUpdate();
@@ -243,7 +243,7 @@ public class UserDao {
 		
 		try {
 			
-			String sql = "select * from shoppingMall_user";
+			String sql = "select * from USERLIST";
 			stmt = MainController.getDbController().getConnection().createStatement();
 			rs = stmt.executeQuery(sql);
 			

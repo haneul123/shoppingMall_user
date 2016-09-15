@@ -27,7 +27,7 @@ public class OrderDao {
 		
 		try {
 			
-			String sql = "select * from shoppingMall_Cart where productNumber = ?";
+			String sql = "select * from CARTLIST where productNumber = ?";
 			pstmt1 = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt1.setInt(1, newOrder.getProductNumber());
 			rs = pstmt1.executeQuery();
@@ -35,7 +35,7 @@ public class OrderDao {
 			if(rs.next()){	
 				
 				// 동일 상품이 이미 장바구니에 있다면 수량만 조정
-				sql = "update shoppingMall_Cart set orderCount = ? where productNumber = ?";
+				sql = "update CARTLIST set orderCount = ? where productNumber = ?";
 				pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt2.setInt(1, newOrder.getOrderCount());
 				pstmt2.setInt(2, newOrder.getProductNumber());
@@ -45,7 +45,7 @@ public class OrderDao {
 			} else {
 				
 				// 수량 추가시 주문 번호 증가
-				sql = "select max(orderNumber) + 1 as maxOrderNumber from shoppingMall_Cart";
+				sql = "select max(orderNumber) + 1 as maxOrderNumber from CARTLIST";
 				stmt = MainController.getDbController().getConnection().createStatement();
 				rs2 = stmt.executeQuery(sql);
 				
@@ -61,7 +61,7 @@ public class OrderDao {
 				newOrder.setOrderNumber(maxOrderNumber);
 				
 				// 동일 상품이 장바구니에 없으면 상품 추가
-				sql = "insert into shoppingMall_Cart values(?, ?, ?)";
+				sql = "insert into CARTLIST values(?, ?, ?)";
 				pstmt3 = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt3.setInt(1, newOrder.getOrderNumber());
 				pstmt3.setInt(2, newOrder.getProductNumber());
@@ -100,7 +100,7 @@ public class OrderDao {
 		
 		try {
 			
-			String sql = "select * from shoppingMall_Cart";
+			String sql = "select * from CARTLIST";
 			stmt = MainController.getDbController().getConnection().createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -134,7 +134,7 @@ public class OrderDao {
 	
 		try {
 		
-			String sql = " select productNumber from shoppingMall_Cart";
+			String sql = " select productNumber from CARTLIST";
 			stmt = MainController.getDbController().getConnection().createStatement();
 			rs = stmt.executeQuery(sql);
 			
@@ -148,7 +148,7 @@ public class OrderDao {
 						
 			for(int i=0; i<orders.size(); i++){
 				
-				sql = "select * from shoppingMall_Product where productNumber = ?";
+				sql = "select * from PRODUCTLIST where productNumber = ?";
 				pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt.setInt(1, products.get(i).getProductNumber());
 				rs = pstmt.executeQuery();
@@ -188,7 +188,7 @@ public class OrderDao {
 		
 		try {
 			
-			String sql = "update shoppingMall_Cart set orderCount = ? where productNumber = ?";
+			String sql = "update CARTLIST set orderCount = ? where productNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, updatedOrder.getOrderCount());
 			pstmt.setInt(2, updatedOrder.getProductNumber());
@@ -217,7 +217,7 @@ public class OrderDao {
 		
 		try {
 			
-			String sql = "delete shoppingMall_Cart where productNumber = ?";
+			String sql = "delete CARTLIST where productNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, selectedProductNumber);
 			pstmt.executeUpdate();

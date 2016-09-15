@@ -21,7 +21,7 @@ public class ProductDao {
 
 		try{
 			stmt = MainController.getDbController().getConnection().createStatement();
-			String sql = "select * from shoppingMall_Product";
+			String sql = "select * from PRODUCTLIST";
 			rs = stmt.executeQuery(sql);
 
 			while(rs.next()){
@@ -64,7 +64,7 @@ public class ProductDao {
 
 		try {
 
-			String sql = "select * from SHOPPINGMALL_PRODUCT where productName = ?";
+			String sql = "select * from PRODUCTLIST where productName = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setString(1, newProduct.getProductName());
 			rs = pstmt.executeQuery();
@@ -76,7 +76,7 @@ public class ProductDao {
 			} else {
 
 				// 같은 상품이름이 존재하지 않으면
-				sql = "select max(productNumber)+1 as maxProductNumber from SHOPPINGMALL_PRODUCT";
+				sql = "select max(productNumber)+1 as maxProductNumber from PRODUCTLIST";
 				stmt = MainController.getDbController().getConnection().createStatement();
 				rs2 = stmt.executeQuery(sql);
 
@@ -91,7 +91,7 @@ public class ProductDao {
 
 				newProduct.setProductNumber(maxProductNumber);
 
-				sql = "insert into SHOPPINGMALL_PRODUCT values(?,?,?,?,?)";
+				sql = "insert into PRODUCTLIST values(?,?,?,?,?)";
 				pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt2.setInt(1, newProduct.getProductNumber());
 				pstmt2.setString(2, newProduct.getProductName());
@@ -132,7 +132,7 @@ public class ProductDao {
 
 		try {
 
-			String sql = "select * from SHOPPINGMALL_PRODUCT where productNumber = ?";
+			String sql = "select * from PRODUCTLIST where productNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, selectedNum);
 			rs = pstmt.executeQuery();
@@ -150,7 +150,7 @@ public class ProductDao {
 				}
 			}
 
-			sql = "update SHOPPINGMALL_PRODUCT set productName = ?, productPrice = ?, productComment = ?, productVendor = ? where productNumber = ?";
+			sql = "update PRODUCTLIST set productName = ?, productPrice = ?, productComment = ?, productVendor = ? where productNumber = ?";
 			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 
 			if(updateProduct.getProductName() != null){
@@ -205,7 +205,7 @@ public class ProductDao {
 		
 		try {
 			
-			String sql = "delete SHOPPINGMALL_PRODUCT where productNumber = ?";
+			String sql = "delete PRODUCTLIST where productNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, deleteProductNumber);
 			pstmt.executeUpdate();
