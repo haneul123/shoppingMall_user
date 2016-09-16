@@ -1,11 +1,14 @@
 package order.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import login.repository.LoginRepository;
 import main.controller.MainController;
 import order.domain.Order;
 import product.domain.Product;
@@ -21,25 +24,39 @@ public class OrderDao {
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
-		ResultSet rs = null;
+		PreparedStatement pstmt4 = null;
+		ResultSet rs1 = null;
 		ResultSet rs2 = null;
+		ResultSet rs3 = null;
 		int maxOrderNumber = 0;
+		int userNumber = 0;
 		
 		try {
 			
-			String sql = "select * from CARTLIST where productNumber = ?";
+			String sql = "select userNumber from userlist where userId = ?";
 			pstmt1 = MainController.getDbController().getConnection().prepareStatement(sql);
-			pstmt1.setInt(1, newOrder.getProductNumber());
-			rs = pstmt1.executeQuery();
+			pstmt1.setString(1, LoginRepository.getLogin().getLoginUserId());
+			rs1 = pstmt1.executeQuery();
+
+			if(rs1.next()){
+				userNumber = rs1.getInt(1);
+			}
 			
-			if(rs.next()){	
+			sql = "select * from CARTLIST where productNumber = ? and userNumber = ?";
+			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt2.setInt(1, newOrder.getProductNumber());
+			pstmt2.setInt(2, userNumber);
+			rs2 = pstmt2.executeQuery();
+			
+			if(rs2.next()){	
 				
 				// 동일 상품이 이미 장바구니에 있다면 수량만 조정
-				sql = "update CARTLIST set orderCount = ? where productNumber = ?";
-				pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
-				pstmt2.setInt(1, newOrder.getOrderCount());
-				pstmt2.setInt(2, newOrder.getProductNumber());
-				pstmt2.executeUpdate();
+				sql = "update CARTLIST set orderCount = ? where productNumber = ? and userNumber = ?";
+				pstmt3 = MainController.getDbController().getConnection().prepareStatement(sql);
+				pstmt3.setInt(1, newOrder.getOrderCount());
+				pstmt3.setInt(2, newOrder.getProductNumber());
+				pstmt3.setInt(3, userNumber);
+				pstmt3.executeUpdate();
 				orderProcessNumber = 1;
 				
 			} else {
@@ -47,13 +64,13 @@ public class OrderDao {
 				// 수량 추가시 주문 번호 증가
 				sql = "select max(orderNumber) + 1 as maxOrderNumber from CARTLIST";
 				stmt = MainController.getDbController().getConnection().createStatement();
-				rs2 = stmt.executeQuery(sql);
+				rs3 = stmt.executeQuery(sql);
 				
-				if(rs2.next()){
+				if(rs3.next()){
 					
-					maxOrderNumber = rs2.getInt(1);
+					maxOrderNumber = rs3.getInt(1);
 					
-					if(rs2.wasNull()){
+					if(rs3.wasNull()){
 						maxOrderNumber = 1;
 					}
 				}
@@ -61,12 +78,15 @@ public class OrderDao {
 				newOrder.setOrderNumber(maxOrderNumber);
 				
 				// 동일 상품이 장바구니에 없으면 상품 추가
-				sql = "insert into CARTLIST values(?, ?, ?)";
-				pstmt3 = MainController.getDbController().getConnection().prepareStatement(sql);
-				pstmt3.setInt(1, newOrder.getOrderNumber());
-				pstmt3.setInt(2, newOrder.getProductNumber());
-				pstmt3.setInt(3, newOrder.getOrderCount());
-				pstmt3.executeUpdate();
+				sql = "insert into CARTLIST values(?, ?, ?, ?, ?)";
+				pstmt4 = MainController.getDbController().getConnection().prepareStatement(sql);
+				pstmt4.setInt(1, newOrder.getOrderNumber());
+				pstmt4.setInt(2, newOrder.getProductNumber());
+				pstmt4.setInt(3, LoginRepository.getLogin().getUserNumber());
+				pstmt4.setInt(4, newOrder.getOrderCount());
+				Date sqlDate = new Date(Calendar.getInstance().getTimeInMillis());
+				pstmt4.setDate(5, sqlDate);
+				pstmt4.executeUpdate();
 				
 				orderProcessNumber = 2;
 			}
@@ -76,14 +96,14 @@ public class OrderDao {
 			e.printStackTrace();
 			
 		} finally {
-			
+			if(pstmt4 != null){MainController.getDbController().close(pstmt4);}
+			if(rs3 != null){MainController.getDbController().close(rs3);}
 			if(pstmt3 != null){MainController.getDbController().close(pstmt3);}
 			if(rs2 != null){MainController.getDbController().close(rs2);}
 			if(stmt != null){MainController.getDbController().close(stmt);}
 			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt1 != null){MainController.getDbController().close(pstmt1);}
-			
+			if(rs1 != null){MainController.getDbController().close(rs1);}
+			if(pstmt1 != null){MainController.getDbController().close(pstmt1);}	
 		}
 		
 		return orderProcessNumber;
@@ -95,27 +115,33 @@ public class OrderDao {
 	public ArrayList<Order> orderList() {
 
 		ArrayList<Order> orders = new ArrayList<Order>();
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			
-			String sql = "select * from CARTLIST";
-			stmt = MainController.getDbController().getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
+			String sql = "select * from CARTLIST where userNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, LoginRepository.getLogin().getUserNumber());
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
 				
 				Order orderList = new Order();
 				orderList.setOrderNumber(rs.getInt(1)); 
 				orderList.setProductNumber(rs.getInt(2));
-				orderList.setOrderCount(rs.getInt(3));
+				orderList.setUserNumber(rs.getInt(3));
+				orderList.setOrderCount(rs.getInt(4));
+				orderList.setOrderDate(rs.getDate(5));
 				orders.add(orderList);
 				
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
+			if(rs != null){MainController.getDbController().close(rs);}
 		}
 
 		return orders;
@@ -126,17 +152,16 @@ public class OrderDao {
 	// 주문상품에 해당하는 상품정보 뽑기
 	public ArrayList<Product> orderListProduct(ArrayList<Order> orders) {
 	
-		ArrayList<Product> products = new ArrayList<Product>();
-				
-		Statement stmt = null;
+		ArrayList<Product> products = new ArrayList<Product>();			
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 	
 		try {
 		
-			String sql = " select productNumber from CARTLIST";
-			stmt = MainController.getDbController().getConnection().createStatement();
-			rs = stmt.executeQuery(sql);
+			String sql = " select productNumber from CARTLIST where userNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, LoginRepository.getLogin().getUserNumber());
+			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
 				
@@ -184,15 +209,28 @@ public class OrderDao {
 	public boolean updateOrderList(Order updatedOrder) {
 	
 		boolean success = true;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs1 = null;
+		int userNumber = 0;
 		
 		try {
 			
-			String sql = "update CARTLIST set orderCount = ? where productNumber = ?";
-			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
-			pstmt.setInt(1, updatedOrder.getOrderCount());
-			pstmt.setInt(2, updatedOrder.getProductNumber());
-			pstmt.executeUpdate();
+			String sql = "select userNumber from userlist where userId = ?";
+			pstmt1 = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt1.setString(1, LoginRepository.getLogin().getLoginUserId());
+			rs1 = pstmt1.executeQuery();
+
+			if(rs1.next()){
+				userNumber = rs1.getInt(1);
+			}
+			
+			sql = "update CARTLIST set orderCount = ? where productNumber = ? and userNumber = ?";
+			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt2.setInt(1, updatedOrder.getOrderCount());
+			pstmt2.setInt(2, updatedOrder.getProductNumber());
+			pstmt2.setInt(3, userNumber);
+			pstmt2.executeUpdate();
 			
 		} catch (SQLException e) {
 			
@@ -200,8 +238,9 @@ public class OrderDao {
 			
 		} finally {
 			
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-			
+			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
+			if(rs1 != null){MainController.getDbController().close(rs1);}
+			if(pstmt1 != null){MainController.getDbController().close(pstmt1);}
 		}
 
 		return success;
@@ -225,6 +264,8 @@ public class OrderDao {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if(pstmt != null){MainController.getDbController().close(pstmt);}
 		}
 		
 		return success;

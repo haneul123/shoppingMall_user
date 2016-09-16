@@ -42,7 +42,7 @@ public class UserMainMenu {
 				
 			} else if(selectedMenu == 5){
 
-				System.out.println("결제내역 확인 모드 입니다");
+				MainController.getPaymentController().requestPaymentList();
 
 			} else if(selectedMenu == 6){
 

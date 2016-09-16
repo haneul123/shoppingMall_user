@@ -3,6 +3,7 @@ package login.domain;
 public class Login {
 
 	// variable
+	private int userNumber;
 	private String loginUserId;
 	private String loginUserPassword;
 	
@@ -20,8 +21,17 @@ public class Login {
 	
 	
 	// getter and setter
+	
 	public String getLoginUserId() {
 		return loginUserId;
+	}
+
+	public int getUserNumber() {
+		return userNumber;
+	}
+
+	public void setUserNumber(int userNumber) {
+		this.userNumber = userNumber;
 	}
 
 	public void setLoginUserId(String loginUserId) {

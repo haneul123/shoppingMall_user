@@ -1,11 +1,15 @@
 package order.domain;
 
+import java.sql.Date;
+
 public class Order {
 
 	// variable
 	private int orderNumber;
 	private int productNumber;
+	private int userNumber;
 	private int orderCount;
+	private Date orderDate;
 	
 	
 	// constructor
@@ -39,12 +43,28 @@ public class Order {
 		this.productNumber = productNumber;
 	}
 
+	public int getUserNumber() {
+		return userNumber;
+	}
+
+	public void setUserNumber(int userNumber) {
+		this.userNumber = userNumber;
+	}
+
 	public int getOrderCount() {
 		return orderCount;
 	}
 
 	public void setOrderCount(int orderCount) {
 		this.orderCount = orderCount;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
 	}	
 	
 }

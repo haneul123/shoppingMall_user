@@ -1,3 +1,4 @@
+drop table paymentlist;
 drop table cartlist;
 drop table adminlist;
 drop table userlist;
