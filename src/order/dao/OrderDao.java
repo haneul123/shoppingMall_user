@@ -152,8 +152,9 @@ public class OrderDao {
 			pstmt.close();
 			rs.close();
 			
-			sql = "select sum(ct.orderCount * pr.price) from CARTLIST ct, PRODUCTLIST pr where userNumber = ?";
+			sql = "select sum(ct.orderCount * pr.productPrice) from CARTLIST ct, PRODUCTLIST pr where userNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, LoginRepository.getLogin().getUserNumber());
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){

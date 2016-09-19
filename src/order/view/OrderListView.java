@@ -43,10 +43,10 @@ public class OrderListView {
 				System.out.print(products.get(i).getProductVendor() + "\t");
 				System.out.print(orders.get(i).getOrderCount() + "\t");
 				System.out.println(orders.get(i).getOrderDate());
-				sumPrice = sumPrice + products.get(i).getProductPrice() * orders.get(i).getOrderCount();
+				
 			}	
 			
-			System.out.println("총 금액 : " + sumPrice);
+			System.out.println("총 금액 : " + orders.get(0).getOrderSum());
 			
 		}
 		
