@@ -63,7 +63,12 @@ public class LoginDao {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 			
 		if(userOrAdmin == 0){
 			return userOrAdmin;

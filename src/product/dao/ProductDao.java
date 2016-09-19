@@ -36,11 +36,13 @@ public class ProductDao {
 
 			}
 
-			rs.close();
-			stmt.close();
-			
 		} catch(SQLException e) {
 			e.printStackTrace();
+		}finally {
+
+			if(stmt != null){try{stmt.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 
 		return products;
@@ -151,9 +153,6 @@ public class ProductDao {
 				
 			}
 
-			rs.close();
-			pstmt.close();
-					
 			sql = "update PRODUCTLIST set productName = ?, productPrice = ?, productComment = ?, productVendor = ? where productNumber = ?";
 			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 
@@ -184,14 +183,19 @@ public class ProductDao {
 			pstmt2.setInt(5, selectedNum);
 			pstmt2.executeUpdate();
 			success = true;
-			pstmt2.close();
 			
 			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 
-		} 
+		} finally {
+			
+			if(pstmt2 != null){try{pstmt2.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 		
 		return success;
 
@@ -211,11 +215,14 @@ public class ProductDao {
 			pstmt.setInt(1, deleteProductNumber);
 			pstmt.executeUpdate();
 			success = true;
-			pstmt.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 	
 		return success;
 

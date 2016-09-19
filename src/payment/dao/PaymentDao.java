@@ -78,9 +78,7 @@ public class PaymentDao {
 	public ArrayList<Payment> paymentList() {
 
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
 		String sql = null;
 		ArrayList<Payment> payments = new ArrayList<Payment>();
 		int userNumber = 0;
@@ -119,18 +117,13 @@ public class PaymentDao {
 				
 			}
 
-			rs.close();
-			pstmt.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
 	
-			if(rs2 != null){try {rs2.close();} catch (SQLException e) {e.printStackTrace();}}
-			if(pstmt2 != null){try {pstmt2.close();} catch (SQLException e) {e.printStackTrace();}}
-			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
-			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
-			
 		}
 
 		return payments;

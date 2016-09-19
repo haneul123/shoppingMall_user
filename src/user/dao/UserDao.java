@@ -65,13 +65,13 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
-
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(rs2 != null){MainController.getDbController().close(rs2);}
-			if(stmt != null){MainController.getDbController().close(stmt);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-		
+			
+			if(pstmt2 != null){try{pstmt2.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs2 != null){try{rs2.close();} catch (SQLException e){e.printStackTrace();}}
+			if(stmt != null){try{stmt.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 
 		return success;
@@ -107,10 +107,10 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
-
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-
+			
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}	
 
 		return loginUserInfo;
@@ -142,8 +142,8 @@ public class UserDao {
 			e.printStackTrace();
 		} finally {
 			
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
 	
 		}
 
@@ -170,8 +170,9 @@ public class UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
+
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
 	
 		}
 
@@ -197,9 +198,9 @@ public class UserDao {
 			e.printStackTrace();
 
 		} finally {
-
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-
+			
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 
 		return success;
@@ -225,8 +226,8 @@ public class UserDao {
 
 		} finally {
 			
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 
 		return success;
@@ -261,10 +262,10 @@ public class UserDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(stmt != null){MainController.getDbController().close(stmt);}
-			
+
+			if(stmt != null){try{stmt.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 		
 		return users;

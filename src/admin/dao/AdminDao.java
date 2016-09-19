@@ -101,16 +101,18 @@ public class AdminDao {
 					
 				admins.add(admin);
 				
-			}
-			
-			rs.close();
-			stmt.close();
+			}	
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+			
+			if(stmt != null){try{stmt.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 
 		return admins;
 
@@ -145,15 +147,17 @@ public class AdminDao {
 				}
 				
 			}
-			
-			rs.close();
-			pstmt.close();
-			
+				
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+			
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 
 		return selectedAdmin;
 
@@ -186,9 +190,6 @@ public class AdminDao {
 				
 			}
 			
-			rs.close();
-			pstmt.close();
-			
 			sql = "update ADMINLIST set adminPassword = ?, authority = ? where adminNumber = ?";
 			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 			
@@ -208,15 +209,19 @@ public class AdminDao {
 			
 			pstmt2.executeUpdate();
 			
-			pstmt2.close();
-			
 			success = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+			
+			if(pstmt2 != null){try{pstmt2.close();} catch (SQLException e){e.printStackTrace();}}
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 
 		return success;
 
@@ -238,11 +243,13 @@ public class AdminDao {
 			pstmt.executeUpdate();
 			success = true;
 			
-			pstmt.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 		
 		return success;
 

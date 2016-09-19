@@ -221,13 +221,15 @@ public class OrderDao {
 			while(rs.next()){
 				orderList.setOrderSum(rs.getInt(1));
 			}
-					
-			rs.close();
-			pstmt.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 
 		return orders;
 		
@@ -274,14 +276,16 @@ public class OrderDao {
 
 			}
 			
-			rs.close();
-			pstmt.close();
-			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+			
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 		
 		return products;
 		
@@ -307,7 +311,6 @@ public class OrderDao {
 				userNumber = rs.getInt(1);
 			}
 			
-			rs.close();
 			pstmt.close();
 			
 			sql = "update CARTLIST set orderCount = ? where productNumber = ? and userNumber = ?";
@@ -323,7 +326,12 @@ public class OrderDao {
 			
 			e.printStackTrace();
 			
-		} 
+		} finally {
+
+			if(rs != null){try{rs.close();} catch (SQLException e){e.printStackTrace();}}
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
+		}
 
 		return success;
 		
@@ -344,10 +352,12 @@ public class OrderDao {
 			pstmt.executeUpdate();
 			success = true;
 			
-			pstmt.close();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+		
+			if(pstmt != null){try{pstmt.close();} catch (SQLException e){e.printStackTrace();}}
+	
 		}
 		
 		return success;
