@@ -132,14 +132,14 @@ public class OrderDao {
 		
 		try {
 			
+			Order orderList = new Order();
 			String sql = "select * from CARTLIST where userNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, LoginRepository.getLogin().getUserNumber());
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()){
+			while(rs.next()){	
 				
-				Order orderList = new Order();
 				orderList.setOrderNumber(rs.getInt(1)); 
 				orderList.setProductNumber(rs.getInt(2));
 				orderList.setUserNumber(rs.getInt(3));
@@ -149,6 +149,19 @@ public class OrderDao {
 				
 			}
 			
+			pstmt.close();
+			rs.close();
+			
+			sql = "select sum(ct.orderCount * pr.price) from CARTLIST ct, PRODUCTLIST pr where userNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+			
+				orderList.setOrderSum(rs.getInt(1));
+				
+			}
+					
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -35,7 +35,7 @@ public class DB_Controller {
 		return conn;
 	}
 	
-	
+	 
 	// Connection close
 	public void close(Connection conn){
 		
