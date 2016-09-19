@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import main.controller.MainController;
 import order.dao.OrderDao;
 import order.domain.Order;
+import order.view.CartProductView;
 import order.view.OrderListView;
 import order.view.OrderProductView;
 import order.view.OrderUpdateView;
@@ -15,6 +16,7 @@ public class OrderController {
 	// variable
 	private OrderDao orderDao;
 
+	
 	// constructor
 	public OrderController() {
 
@@ -22,7 +24,48 @@ public class OrderController {
 
 	}
 
+	
 	// method
+	// 상품 주문 장바구니로 이동
+	public void requestCartProductView() {
+		
+		CartProductView cartProductView = new CartProductView();
+		cartProductView.cartProductView();
+		
+	}
+	
+	
+	// 선택한 상품 장바구니로 이동
+	public void requestCartProduct(Order newOrder) {
+		
+		int cartProcessNumber = orderDao.cartProduct(newOrder);
+
+		if(cartProcessNumber == 1){
+
+			MainController.AlertView("이미 장바구니에 있는 상품입니다. 수량만 변경되었습니다");
+
+		} else if(cartProcessNumber == 2){
+
+			MainController.AlertView("정상적으로 장바구니에 담겼습니다");
+
+		} else {
+
+			System.out.println("선택하신 상품은 없는 상품입니다");
+
+		}
+		
+	}
+	
+	// 장바구니 확인하기
+	
+	public void requestCartListView(){
+		
+		CartListView cartListView = new CartListView();
+		
+	}
+	
+	
+	
 	// 상품 주문을 위한 상품번호와 수량 입력받음
 	public void requestOrderProductView(){
 

@@ -30,7 +30,8 @@ public class UserMainMenu {
 
 			} else if(selectedMenu == 2){
 
-				MainController.getOrderController().requestOrderProductView();
+				//MainController.getOrderController().requestOrderProductView();
+				MainController.getOrderController().requestCartProductView();
 
 			} else if(selectedMenu == 3){
 

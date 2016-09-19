@@ -7,6 +7,8 @@ public class Order {
 	// variable
 	private int orderNumber;
 	private int productNumber;
+	private String productName;
+	private int productPrice;
 	private int userNumber;
 	private int orderCount;
 	private Date orderDate;
@@ -74,6 +76,22 @@ public class Order {
 
 	public void setOrderSum(int orderSum) {
 		this.orderSum = orderSum;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
 	}	
 	
 }

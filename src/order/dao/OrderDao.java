@@ -9,12 +9,73 @@ import java.util.ArrayList;
 import login.repository.LoginRepository;
 import main.controller.MainController;
 import order.domain.Order;
+import order.repository.OrderRepository;
 import product.domain.Product;
 
 public class OrderDao {
 
+	// constructor
+	public OrderDao() {
+		
+		new OrderRepository();
+		
+	}
 	
-	// 주문한 상품 장바구니에 넣기
+	
+	// 주문한 상품 장바구니 넣기
+	public int cartProduct(Order newOrder) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int cartProcessNumber = 0;
+		
+		// 상품번호, 수량 받아옴		
+		// newOrder 내용을 OrderRepository로 넣기
+	
+		for(int i=0; i<OrderRepository.getOrders().size(); i++){
+			if(OrderRepository.getOrders().get(i).getProductNumber() == newOrder.getProductNumber()){
+				// 이미 주문한 상품이 존재하므로 수량만 변경한다.
+				OrderRepository.getOrders().get(i).setOrderCount(newOrder.getOrderCount());
+				cartProcessNumber = 1;
+				return cartProcessNumber;
+			}
+		}
+		
+		// 주문한 상품이 없어 새롭게 등록하는 경우
+		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setOrderNumber(OrderRepository.getLastCartNumber());
+		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductNumber(newOrder.getProductNumber());
+		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setOrderCount(newOrder.getOrderCount());
+		
+		// 상품정보 DB에서 불러오기	
+		try {
+			
+			String sql = "select productName, productPrice from productlist where productNumber = ?";
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, newOrder.getProductNumber());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductName(rs.getString(1));
+				OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductPrice(rs.getInt(2));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+		}
+		
+		// 장바구니 마지막 번호 1 증가
+		OrderRepository.setLastCartNumber(OrderRepository.getLastCartNumber() + 1);
+				
+		cartProcessNumber = 2;
+		return cartProcessNumber;
+		
+	}
+	
+	
+	// 주문한 상품 주문상태 장바구니로 넣기
 	public int orderProduct(Order newOrder) {
 		
 		int orderProcessNumber = 0;
