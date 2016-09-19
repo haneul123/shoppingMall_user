@@ -3,7 +3,6 @@ package login.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import login.domain.Login;
 import login.repository.LoginRepository;
@@ -26,7 +25,6 @@ public class LoginDao {
 		String sql = null;
 		PreparedStatement pstmt = null; 
 		PreparedStatement pstmt2 = null;
-		Statement stmt = null;
 		ResultSet rs = null;
 		ResultSet rs2 = null;
 		
