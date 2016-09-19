@@ -36,11 +36,11 @@ public class ProductDao {
 
 			}
 
+			rs.close();
+			stmt.close();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
-		} finally {
-			MainController.getDbController().close(rs);
-			MainController.getDbController().close(stmt);
 		}
 
 		return products;
@@ -109,12 +109,12 @@ public class ProductDao {
 
 		} finally {
 
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(rs2 != null){MainController.getDbController().close(rs2);}
-			if(stmt != null){MainController.getDbController().close(stmt);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-
+			if(pstmt2 != null){try {pstmt2.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(rs2 != null){try {rs2.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(stmt != null){try {stmt.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+			
 		}
 
 		return success;
@@ -148,8 +148,12 @@ public class ProductDao {
 				if(rs.wasNull()){
 					return success;
 				}
+				
 			}
 
+			rs.close();
+			pstmt.close();
+					
 			sql = "update PRODUCTLIST set productName = ?, productPrice = ?, productComment = ?, productVendor = ? where productNumber = ?";
 			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
 
@@ -180,18 +184,15 @@ public class ProductDao {
 			pstmt2.setInt(5, selectedNum);
 			pstmt2.executeUpdate();
 			success = true;
-
+			pstmt2.close();
+			
+			
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 
-		} finally {
-
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			
-		}
+		} 
+		
 		return success;
 
 	}
@@ -210,12 +211,11 @@ public class ProductDao {
 			pstmt.setInt(1, deleteProductNumber);
 			pstmt.executeUpdate();
 			success = true;
+			pstmt.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-		}
+		} 
 	
 		return success;
 

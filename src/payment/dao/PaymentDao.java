@@ -41,6 +41,7 @@ public class PaymentDao {
 					if(rs.wasNull()){
 						maxPaymentListNumber = 1;
 					}
+					
 				}
 
 				sql = "insert into paymentlist values(?, ?, ?, ?, ?, ?)";	
@@ -64,10 +65,12 @@ public class PaymentDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(stmt != null){MainController.getDbController().close(stmt);}
+			
+			if(pstmt2 != null){try {pstmt2.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(stmt != null){try {stmt.close();} catch (SQLException e) {e.printStackTrace();}}
+			
 		}
 
 	}
@@ -93,33 +96,41 @@ public class PaymentDao {
 				userNumber = rs.getInt(1);
 			}
 
+			rs.close();
+			pstmt.close();
+			
 			sql = "select pm.paymentListNumber, pm.userNumber, pm.productNumber, pm.paymentCount, pm.paymentMethod, pm.paymentDate, pt.productName, pt.productPrice from paymentList pm, productList pt where pm.userNumber = ? and pm.productNumber = pt.productNumber";
-			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
-			pstmt2.setInt(1, userNumber);
-			rs2 = pstmt2.executeQuery();
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setInt(1, userNumber);
+			rs = pstmt.executeQuery();
 
-			while(rs2.next()){
+			while(rs.next()){
 				
 				Payment payment = new Payment();
-				payment.setPaymentListNumber(rs2.getInt(1));
-				payment.setUserNumber(rs2.getInt(2));
-				payment.setProductNumber(rs2.getInt(3));
-				payment.setPaymentCount(rs2.getInt(4));
-				payment.setPaymentMethod(rs2.getInt(5));
-				payment.setPaymentDate(rs2.getDate(6));
-				payment.setProductName(rs2.getString(7));
-				payment.setProductPrice(rs2.getInt(8));
+				payment.setPaymentListNumber(rs.getInt(1));
+				payment.setUserNumber(rs.getInt(2));
+				payment.setProductNumber(rs.getInt(3));
+				payment.setPaymentCount(rs.getInt(4));
+				payment.setPaymentMethod(rs.getInt(5));
+				payment.setPaymentDate(rs.getDate(6));
+				payment.setProductName(rs.getString(7));
+				payment.setProductPrice(rs.getInt(8));
 				payments.add(payment);
 				
 			}
 
+			rs.close();
+			pstmt.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if(rs2 != null){MainController.getDbController().close(rs2);}
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
+	
+			if(rs2 != null){try {rs2.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(pstmt2 != null){try {pstmt2.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
+			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
+			
 		}
 
 		return payments;

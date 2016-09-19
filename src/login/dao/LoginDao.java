@@ -24,10 +24,7 @@ public class LoginDao {
 		int userOrAdmin = 0;
 		String sql = null;
 		PreparedStatement pstmt = null; 
-		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
-		
 		
 		try {
 			
@@ -44,30 +41,29 @@ public class LoginDao {
 				loginUser.setUserNumber(rs.getInt(1));
 			}
 			
+			rs.close();
+			pstmt.close();
+			
 			// 관리자인지 확인
 			sql = "select * from ADMINLIST where adminId = ? and adminPassword = ?";
-			pstmt2 = MainController.getDbController().getConnection().prepareStatement(sql);
-			pstmt2.setString(1, loginUser.getLoginUserId());
-			pstmt2.setString(2, loginUser.getLoginUserPassword());
-			rs2 = pstmt2.executeQuery();
+			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
+			pstmt.setString(1, loginUser.getLoginUserId());
+			pstmt.setString(2, loginUser.getLoginUserPassword());
+			rs = pstmt.executeQuery();
 			
-			if(rs2.next()){
+			if(rs.next()){
 				// 1이면 관리자
 				userOrAdmin = 1;
 			}
+			
+			rs.close();
+			pstmt.close();
 					
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
-		} finally {
-			
-			if(rs2 != null){MainController.getDbController().close(rs2);}
-			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
-			if(rs != null){MainController.getDbController().close(rs);}
-			if(pstmt != null){MainController.getDbController().close(pstmt);}
-			
-		}
+		} 
 			
 		if(userOrAdmin == 0){
 			return userOrAdmin;
