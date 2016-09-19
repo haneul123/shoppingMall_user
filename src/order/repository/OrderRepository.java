@@ -8,15 +8,12 @@ public class OrderRepository {
 
 	
 	// variable
-	static private ArrayList<Order> orders;
+	static private ArrayList<Order> orders = new ArrayList<Order>();
 	static private int lastCartNumber;
 	
 	
 	// constructor
 	public OrderRepository() {
-		
-		orders = new ArrayList<Order>();
-		lastCartNumber = 1;
 		
 	}
 

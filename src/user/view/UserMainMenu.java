@@ -30,16 +30,15 @@ public class UserMainMenu {
 
 			} else if(selectedMenu == 2){
 
-				//MainController.getOrderController().requestOrderProductView();
 				MainController.getOrderController().requestCartProductView();
 
 			} else if(selectedMenu == 3){
 
-				MainController.getOrderController().requestOrderListView();
+				MainController.getOrderController().requestCartListView();
 				
 			} else if(selectedMenu == 4){
 				
-				MainController.getOrderController().requestUpdateOrderListInfo();
+				MainController.getOrderController().requestUpdateCartListView();
 				
 			} else if(selectedMenu == 5){
 

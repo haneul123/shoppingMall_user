@@ -28,6 +28,7 @@ public class OrderDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int cartProcessNumber = 0;
+		Product product = null;
 		
 		// 상품번호, 수량 받아옴		
 		// newOrder 내용을 OrderRepository로 넣기
@@ -41,22 +42,25 @@ public class OrderDao {
 			}
 		}
 		
-		// 주문한 상품이 없어 새롭게 등록하는 경우
-		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setOrderNumber(OrderRepository.getLastCartNumber());
-		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductNumber(newOrder.getProductNumber());
-		OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setOrderCount(newOrder.getOrderCount());
-		
 		// 상품정보 DB에서 불러오기	
 		try {
-			
 			String sql = "select productName, productPrice from productlist where productNumber = ?";
 			pstmt = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt.setInt(1, newOrder.getProductNumber());
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
+				
+				// 주문한 상품이 없어 새롭게 등록하는 경우
+				newOrder.setOrderNumber(newOrder.getOrderNumber() + 1);
+				OrderRepository.getOrders().add(newOrder);
 				OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductName(rs.getString(1));
 				OrderRepository.getOrders().get(OrderRepository.getLastCartNumber()).setProductPrice(rs.getInt(2));
+				
+				if(rs.wasNull()){
+					return cartProcessNumber;
+				}
+				
 			}
 			
 		} catch (SQLException e) {
@@ -65,12 +69,35 @@ public class OrderDao {
 			if(rs != null){try {rs.close();} catch (SQLException e) {e.printStackTrace();}}
 			if(pstmt != null){try {pstmt.close();} catch (SQLException e) {e.printStackTrace();}}
 		}
-		
-		// 장바구니 마지막 번호 1 증가
-		OrderRepository.setLastCartNumber(OrderRepository.getLastCartNumber() + 1);
-				
+						
 		cartProcessNumber = 2;
 		return cartProcessNumber;
+		
+	}
+	
+	
+	// 장바구니에 담긴 물건들 가져오기
+	public ArrayList<Order> cartList() {
+		
+		ArrayList<Order> orders = OrderRepository.getOrders();
+	
+		return orders;
+		
+	}
+	
+	
+	// 장바구니 물건 수정하기
+	public boolean updateCartList(Order order) {
+		
+		boolean isFind = false;
+		
+		for(int i=0; i<OrderRepository.getOrders().size(); i++){	
+			if(order.getProductNumber() == OrderRepository.getOrders().get(i).getProductNumber()){
+				OrderRepository.getOrders().get(i).setOrderCount(order.getOrderCount());
+			}
+		}
+		
+		return isFind;
 		
 	}
 	

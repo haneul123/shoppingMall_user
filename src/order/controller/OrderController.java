@@ -10,6 +10,7 @@ import order.view.CartProductView;
 import order.view.OrderListView;
 import order.view.OrderProductView;
 import order.view.OrderUpdateView;
+import order.view.UpdateCartList;
 import product.domain.Product;
 
 public class OrderController {
@@ -57,43 +58,44 @@ public class OrderController {
 		
 	}
 	
-	// 장바구니 확인하기
 	
+	// 장바구니 확인하기	
 	public void requestCartListView(){
 		
+		ArrayList<Order> orders = orderDao.cartList();
 		CartListView cartListView = new CartListView();
+		cartListView.cartListView(orders);
 		
 	}
 	
 	
+	// 장바구니 내용을 수정하기
+	public void requestUpdateCartListView(){
+		
+		UpdateCartList updateCartList = new UpdateCartList();
+		updateCartList.updateCartList();
+		
+	}
 	
-	// 상품 주문을 위한 상품번호와 수량 입력받음
-	public void requestOrderProductView(){
-
-		OrderProductView orderProductView = new OrderProductView();
-		orderProductView.orderProductView();
-
+	
+	// 수정한 내용 dao에 적용
+	public void requestUpdateCartList(Order order){
+		
+		boolean isFind = orderDao.updateCartList(order);
+		
+		if(isFind){
+			MainController.AlertView("잘 수정되었습니다");
+		} else {
+			MainController.AlertView("수정에 실패하였습니다");
+		}
+		
 	}
 
 
 	// 주문받은 상품번호와 수량을 데이터베이스에 저장을 요청
-	public void requestOrderProduct(Order newOrder){
+	public void requestOrderProduct(){
 
-		int orderProcessNumber = orderDao.orderProduct(newOrder);
-
-		if(orderProcessNumber == 1){
-
-			MainController.AlertView("이미 주문된 상품입니다. 수량만 변경되었습니다");
-
-		} else if(orderProcessNumber == 2){
-
-			MainController.AlertView("정상적으로 주문되었습니다");
-
-		} else {
-
-			System.out.println("선택하신 상품은 없는 상품입니다");
-
-		}
+		int orderProcessNumber = orderDao.orderProduct();
 
 	}
 
