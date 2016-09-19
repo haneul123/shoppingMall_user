@@ -20,12 +20,12 @@ public class MainMenuView {
 	public void mainMenuView(){
 
 		while(true){
-			
+
 			System.out.println("원하시는 메뉴를 선택하여 주십시오");
 			System.out.println("1. 상품보기 || 2. 회원가입 || 3. 로그인 || 4. 쇼핑몰 나가기");
 
 			int selectedMenu = keyboard.nextInt();
-		
+
 			if(selectedMenu == 1){
 
 				MainController.getProductController().requestProductlist(); // 상품보기
@@ -49,6 +49,8 @@ public class MainMenuView {
 
 			}
 		}
-	}
+
+	} 
 
 }
+
