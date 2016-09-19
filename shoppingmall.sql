@@ -66,7 +66,15 @@ create table cartlist(
 -- 결제 테이블 작성
 create table paymentlist(
   paymentListNumber int primary key,
-  orderNumber int references cartlist(orderNumber),
+  userNumber int references userlist(userNumber),
+  productNumber int references productlist(productNumber),
+  paymentCount int,
+  paymentMethod int not null,
   paymentDate Date default sysdate
 );
 
+select * from productlist;
+select * from userlist;
+select * from adminlist;
+select * from cartlist;
+select * from paymentlist;
