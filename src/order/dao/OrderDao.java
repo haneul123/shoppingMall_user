@@ -1,12 +1,10 @@
 package order.dao;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import login.repository.LoginRepository;
 import main.controller.MainController;
@@ -32,7 +30,7 @@ public class OrderDao {
 		int userNumber = 0;
 		
 		try {
-			
+			MainController.getDbController().getConnection().setAutoCommit(false);
 			String sql = "select userNumber from userlist where userId = ?";
 			pstmt1 = MainController.getDbController().getConnection().prepareStatement(sql);
 			pstmt1.setString(1, LoginRepository.getLogin().getLoginUserId());
@@ -78,24 +76,31 @@ public class OrderDao {
 				newOrder.setOrderNumber(maxOrderNumber);
 				
 				// 동일 상품이 장바구니에 없으면 상품 추가
-				sql = "insert into CARTLIST values(?, ?, ?, ?, ?)";
+				sql = "insert into CARTLIST(orderNumber, productNumber, userNumber, orderCount) values(?, ?, ?, ?)";
 				pstmt4 = MainController.getDbController().getConnection().prepareStatement(sql);
 				pstmt4.setInt(1, newOrder.getOrderNumber());
 				pstmt4.setInt(2, newOrder.getProductNumber());
 				pstmt4.setInt(3, LoginRepository.getLogin().getUserNumber());
 				pstmt4.setInt(4, newOrder.getOrderCount());
-				Date sqlDate = new Date(Calendar.getInstance().getTimeInMillis());
-				pstmt4.setDate(5, sqlDate);
 				pstmt4.executeUpdate();
 				
 				orderProcessNumber = 2;
 			}
 			
+			MainController.getDbController().getConnection().commit();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
+			try {
+				MainController.getDbController().getConnection().rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
 		} finally {
+			
 			if(pstmt4 != null){MainController.getDbController().close(pstmt4);}
 			if(rs3 != null){MainController.getDbController().close(rs3);}
 			if(pstmt3 != null){MainController.getDbController().close(pstmt3);}
@@ -103,7 +108,14 @@ public class OrderDao {
 			if(stmt != null){MainController.getDbController().close(stmt);}
 			if(pstmt2 != null){MainController.getDbController().close(pstmt2);}
 			if(rs1 != null){MainController.getDbController().close(rs1);}
-			if(pstmt1 != null){MainController.getDbController().close(pstmt1);}	
+			if(pstmt1 != null){MainController.getDbController().close(pstmt1);}
+			
+			try {
+				MainController.getDbController().getConnection().setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		return orderProcessNumber;

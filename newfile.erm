@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2016-09-19 09:23:30</creation_date>
-			<updated_date>2016-09-19 09:35:14</updated_date>
+			<updated_date>2016-09-19 10:12:32</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -514,8 +514,8 @@
 			<width>191</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>481</x>
-			<y>101</y>
+			<x>474</x>
+			<y>58</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -710,8 +710,8 @@
 			<width>167</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>810</x>
-			<y>101</y>
+			<x>829</x>
+			<y>58</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -873,8 +873,8 @@
 			<width>210</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>164</x>
-			<y>101</y>
+			<x>123</x>
+			<y>58</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1069,8 +1069,8 @@
 			<width>204</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>208</x>
-			<y>503</y>
+			<x>156</x>
+			<y>447</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
@@ -1344,8 +1344,8 @@
 			<width>181</width>
 				<font_name>맑은 고딕</font_name>
 				<font_size>9</font_size>
-			<x>829</x>
-			<y>513</y>
+			<x>753</x>
+			<y>468</y>
 			<color>
 				<r>128</r>
 				<g>128</g>
