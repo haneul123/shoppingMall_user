@@ -10,6 +10,7 @@ public class Order {
 	private int userNumber;
 	private int orderCount;
 	private Date orderDate;
+	private int orderSum;
 	
 	
 	// constructor
@@ -65,6 +66,14 @@ public class Order {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public int getOrderSum() {
+		return orderSum;
+	}
+
+	public void setOrderSum(int orderSum) {
+		this.orderSum = orderSum;
 	}	
 	
 }

@@ -76,8 +76,13 @@ public class DB_Controller {
 
 		return conn;
 	}
+<<<<<<< HEAD
 
 
+=======
+	
+	 
+>>>>>>> refs/remotes/origin/master
 	// Connection close
 	public void close(Connection conn){
 
