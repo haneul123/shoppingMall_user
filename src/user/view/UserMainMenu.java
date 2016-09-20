@@ -21,7 +21,7 @@ public class UserMainMenu {
 		while(true){
 			
 			System.out.println("원하시는 메뉴를 선택하여 주십시오");
-			System.out.println("1. 전체상품보기 || 2. 상품주문하기 || 3. 장바구니 확인 || 4. 장바구니 수정 || 5. 결제내역 확인 || 6. 개인정보 변경 || 7. 로그아웃 하기");
+			System.out.println("1. 전체상품보기 || 2. 상품주문하기 || 3. 장바구니 확인 || 4. 장바구니 수정 || 5. 주문상품 결제 || 6. 결제내역 확인 || 7. 개인정보 변경 || 8. 로그아웃 하기");
 			int selectedMenu = keyboard.nextInt();
 
 			if(selectedMenu == 1){
@@ -42,13 +42,17 @@ public class UserMainMenu {
 				
 			} else if(selectedMenu == 5){
 
-				MainController.getPaymentController().requestPaymentList();
+				MainController.getOrderController().requestOrderListView();
 
 			} else if(selectedMenu == 6){
-
-				MainController.getUserController().requestUserUpdateInfo();
+				
+				MainController.getPaymentController().requestPaymentList();
 				
 			} else if(selectedMenu == 7){
+				
+				MainController.getUserController().requestUserUpdateInfo();
+				
+			} else if(selectedMenu == 8){
 				
 				MainController.getLoginController().requestLogout();
 				

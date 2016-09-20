@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import main.controller.MainController;
 import order.domain.Order;
-import product.domain.Product;
 
 public class OrderListView {
 
@@ -21,26 +20,21 @@ public class OrderListView {
 	
 	// method
 	// 장바구니 리스트 보기
-	public void orderListView(ArrayList<Order> orders, ArrayList<Product> products) {
-		
-		int sumPrice = 0;
+	public void orderListView(ArrayList<Order> orders) {
 		
 		if(orders.size() == 0){
 			
-			System.out.println("장바구니에 상품이 존재하지 않습니다");
+			System.out.println("주문상품이 없습니다");
 			return;
 			
 		} else {
 		
-			System.out.println("상품번호\t상품이름\t\t상품가격\t상품설명\t\t제조사\t주문수량\t주문일자");
-			
-			for(int i=0; i<products.size(); i++){
+			System.out.println("상품번호\t상품이름\t\t상품가격\t주문수량\t주문일자");
+			for(int i=0; i<orders.size(); i++){
 				
 				System.out.print(orders.get(i).getProductNumber() + "\t");
-				System.out.print(products.get(i).getProductName() + "\t");
-				System.out.print(products.get(i).getProductPrice() + "\t");
-				System.out.print(products.get(i).getProductComment() + "\t");
-				System.out.print(products.get(i).getProductVendor() + "\t");
+				System.out.print(orders.get(i).getProductName() + "\t");
+				System.out.print(orders.get(i).getProductPrice() + "\t");
 				System.out.print(orders.get(i).getOrderCount() + "\t");
 				System.out.println(orders.get(i).getOrderDate());
 				
@@ -56,7 +50,7 @@ public class OrderListView {
 		if(yesOrNo == 'y'){
 			
 			System.out.println("결제창으로 이동합니다");
-			MainController.getPaymentController().requestPaymentView(sumPrice, orders, products);
+			MainController.getPaymentController().requestPaymentView(orders);
 			
 		} else if(yesOrNo == 'n'){
 			

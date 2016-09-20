@@ -8,10 +8,8 @@ import order.domain.Order;
 import order.view.CartListView;
 import order.view.CartProductView;
 import order.view.OrderListView;
-import order.view.OrderProductView;
-import order.view.OrderUpdateView;
+import order.view.CartUpdateView;
 import order.view.UpdateCartList;
-import product.domain.Product;
 
 public class OrderController {
 
@@ -62,9 +60,8 @@ public class OrderController {
 	// 장바구니 확인하기	
 	public void requestCartListView(){
 		
-		ArrayList<Order> orders = orderDao.cartList();
 		CartListView cartListView = new CartListView();
-		cartListView.cartListView(orders);
+		cartListView.cartListView();
 		
 	}
 	
@@ -92,35 +89,40 @@ public class OrderController {
 	}
 
 
-	// 주문받은 상품번호와 수량을 데이터베이스에 저장을 요청
+	// 장바구니 내용을 주문 리스트 데이터베이스에 저장을 요청
 	public void requestOrderProduct(){
 
-		int orderProcessNumber = orderDao.orderProduct();
+		boolean success = orderDao.orderProduct();
+		
+		if(success){
+			MainController.AlertView("주문이 정상처리되었습니다");
+		} else {
+			MainController.AlertView("주문처리에 실패했습니다");
+		}
 
 	}
 
 
-	// 장바구니 리스트 요청
+	// 주문 리스트 요청
 	public void requestOrderListView(){
 
 		ArrayList<Order> orders = orderDao.orderList();
-		ArrayList<Product> products = orderDao.orderListProduct(orders);
 		OrderListView orderListView = new OrderListView();
-		orderListView.orderListView(orders, products);
+		orderListView.orderListView(orders);
 
 	}
 
 
-	// 장바구니 수정을 위한 정보 요청
+	// 주문 리스트 수정을 위한 정보 요청
 	public void requestUpdateOrderListInfo(){
 
-		OrderUpdateView orderUpdateView = new OrderUpdateView();
+		CartUpdateView orderUpdateView = new CartUpdateView();
 		orderUpdateView.orderUpdateView();
 
 	}
 
 
-	// 장바구니 수정 정보 데이터베이스 반영	
+	// 주문 리스트 수정 정보 데이터베이스 반영	
 	public void requestUpdateOrderList(Order updatedOrder){
 
 		boolean success = orderDao.updateOrderList(updatedOrder);
@@ -134,7 +136,7 @@ public class OrderController {
 	}
 
 
-	// 장바구니 삭제 요청
+	// 주문 리스트 삭제 요청
 	public void requestDeleteOrderList(int selectedProductNumber){
 
 		boolean success = orderDao.deleteOrderList(selectedProductNumber);

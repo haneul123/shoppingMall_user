@@ -1,10 +1,9 @@
 package order.view;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import main.controller.MainController;
-import order.domain.Order;
+import order.repository.OrderRepository;
 
 public class CartListView {
 
@@ -18,18 +17,18 @@ public class CartListView {
 		
 	}
 	
-	public void cartListView(ArrayList<Order> orders) {
+	public void cartListView() {
 		
 		int sumPrice = 0;
 		
-		System.out.println("주문번호\t상품이름\t\t상품가격\t주문수량\t전체가격");
-		for(int i=0; i<orders.size(); i++){
-			System.out.print(orders.get(i).getOrderNumber() + "\t");
-			System.out.print(orders.get(i).getProductName() + "\t");
-			System.out.print(orders.get(i).getProductPrice() + "\t");
-			System.out.print(orders.get(i).getOrderCount() + "\t");
-			System.out.println(orders.get(i).getProductPrice() * orders.get(i).getOrderCount());
-			sumPrice = sumPrice + (orders.get(i).getProductPrice() * orders.get(i).getOrderCount());
+		System.out.println("상품번호\t상품이름\t\t상품가격\t주문수량\t전체가격");
+		for(int i=0; i<OrderRepository.getOrders().size(); i++){
+			System.out.print(OrderRepository.getOrders().get(i).getProductNumber() + "\t");
+			System.out.print(OrderRepository.getOrders().get(i).getProductName() + "\t");
+			System.out.print(OrderRepository.getOrders().get(i).getProductPrice() + "\t");
+			System.out.print(OrderRepository.getOrders().get(i).getOrderCount() + "\t");
+			System.out.println(OrderRepository.getOrders().get(i).getProductPrice() * OrderRepository.getOrders().get(i).getOrderCount());
+			sumPrice = sumPrice + (OrderRepository.getOrders().get(i).getProductPrice() * OrderRepository.getOrders().get(i).getOrderCount());
 		}
 		
 		System.out.println("총금액 : " + sumPrice);

@@ -5,14 +5,14 @@ import java.util.Scanner;
 import main.controller.MainController;
 import order.domain.Order;
 
-public class OrderUpdateView {
+public class CartUpdateView {
 
 	// variable
 	private Scanner keyboard;
 
 
 	// constructor
-	public OrderUpdateView() {
+	public CartUpdateView() {
 
 		this.keyboard = new Scanner(System.in);
 
@@ -40,6 +40,7 @@ public class OrderUpdateView {
 				
 			System.out.println("삭제하실 상품번호를 입력하세요");
 			int selectedProductNumber = keyboard.nextInt();
+			
 			MainController.getOrderController().requestDeleteOrderList(selectedProductNumber);
 			
 		}

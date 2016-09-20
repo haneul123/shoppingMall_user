@@ -13,13 +13,11 @@ public class Order {
 	private int orderCount;
 	private Date orderDate;
 	private int orderSum;
+	private int isPayment;
 	
 	
 	// constructor
-	public Order() {
-
-		
-	}
+	public Order() {}
 	
 	public Order(int productNumber, int orderCount){
 		
@@ -27,7 +25,6 @@ public class Order {
 		this.orderCount = orderCount;
 		
 	}
-	
 	
 	// getter and setter
 	public int getOrderNumber() {
@@ -92,6 +89,14 @@ public class Order {
 
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
+	}
+
+	public int getIsPayment() {
+		return isPayment;
+	}
+
+	public void setIsPayment(int isPayment) {
+		this.isPayment = isPayment;
 	}	
 	
 }

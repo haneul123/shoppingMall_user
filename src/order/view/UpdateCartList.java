@@ -10,6 +10,13 @@ public class UpdateCartList {
 	// variable
 	private Scanner keyboard;
 	
+	// constructor
+	public UpdateCartList() {
+		
+		this.keyboard = new Scanner(System.in);
+		
+	}
+	
 	public void updateCartList() {
 		
 		Order order = null;
@@ -25,14 +32,19 @@ public class UpdateCartList {
 			int updateProductCount = keyboard.nextInt();
 			
 			order = new Order(selectedProductNumber, updateProductCount);
+			MainController.getOrderController().requestUpdateCartList(order);
 			
 		}else if(selectedMenu == 2){
 			
+			System.out.println("삭제할 상품번호를 입력해 주세요");
+			int selectedProductNumber = keyboard.nextInt();
+			int updateProductCount = 0;
+			
+			order = new Order(selectedProductNumber, updateProductCount);
 			MainController.getOrderController().requestUpdateCartList(order);
+			
 		}
-		
-		MainController.getOrderController().requestUpdateCartList(order);
-		
+				
 	}
 
 }

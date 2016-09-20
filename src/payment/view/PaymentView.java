@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import main.controller.MainController;
 import order.domain.Order;
-import product.domain.Product;
 
 public class PaymentView {
 
@@ -19,10 +18,10 @@ public class PaymentView {
 		
 	}
 	
-	public void paymentView(int sumPrice, ArrayList<Order> orders, ArrayList<Product> products) {
+	public void paymentView(ArrayList<Order> orders) {
 		
 		System.out.println("결제 총액은 다음과 같습니다");
-		System.out.println(sumPrice + "원");
+		System.out.println(orders.get(0).getOrderSum() + "원");
 		
 		System.out.println("결제 방식을 선택해 주십시오");
 		System.out.println("1. 카드결제 || 2. 현금결제 || 3. 결제취소하기");
@@ -31,12 +30,12 @@ public class PaymentView {
 		if(selectedMethodNumber == 1){
 			
 			System.out.println("카드결제를 선택하셨습니다");
-			MainController.getPaymentController().requestPayment(selectedMethodNumber, orders, products);
+			MainController.getPaymentController().requestPayment(selectedMethodNumber, orders);
 			
 		} else if(selectedMethodNumber == 2){
 			
 			System.out.println("현금결제를 선택하셨습니다");
-			MainController.getPaymentController().requestPayment(selectedMethodNumber, orders, products);
+			MainController.getPaymentController().requestPayment(selectedMethodNumber, orders);
 			
 		} else if(selectedMethodNumber == 3){
 			

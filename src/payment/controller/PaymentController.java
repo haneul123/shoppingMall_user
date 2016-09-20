@@ -7,7 +7,6 @@ import payment.dao.PaymentDao;
 import payment.domain.Payment;
 import payment.view.PaymentList;
 import payment.view.PaymentView;
-import product.domain.Product;
 
 public class PaymentController {
 
@@ -23,18 +22,18 @@ public class PaymentController {
 	
 	// method
 	// 결제창뷰 출력요청
-	public void requestPaymentView(int sumPrice, ArrayList<Order> orders, ArrayList<Product> products) {
+	public void requestPaymentView(ArrayList<Order> orders) {
 		
 		PaymentView paymentView = new PaymentView();
-		paymentView.paymentView(sumPrice, orders, products);
+		paymentView.paymentView(orders);
 		
 	}
 
 	
 	// 결정된 결제방법으로 결제요청
-	public void requestPayment(int selectedMethodNumber, ArrayList<Order> orders, ArrayList<Product> products) {
+	public void requestPayment(int selectedMethodNumber, ArrayList<Order> orders) {
 		
-		paymentDao.pay(selectedMethodNumber, orders, products);
+		paymentDao.pay(selectedMethodNumber, orders);
 		
 	}
 
