@@ -20,15 +20,15 @@ public class LoginView {
 	
 	// 로그인
 	public void loginView(){
-		
-		System.out.println("아이디 : ");
-		String loginId = keyboard.next();
-		
-		System.out.println("패스워드 : ");
-		String loginPassword = keyboard.next();
-		
-		Login loginUser = new Login(loginId, loginPassword);
-		MainController.getLoginController().requestLogin(loginUser);
+				
+			System.out.println("아이디 : ");
+			String loginId = keyboard.next();
+			
+			System.out.println("패스워드 : ");
+			String loginPassword = keyboard.next();
+			
+			Login loginUser = new Login(loginId, loginPassword);
+			MainController.getLoginController().requestLogin(loginUser);
 		
 	}
 	
